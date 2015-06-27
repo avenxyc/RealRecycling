@@ -1,0 +1,20 @@
+﻿@model string
+
+@{
+    ViewBag.Title = "Error";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Error</title>
+</head>
+<body>
+    <hgroup>
+        <h3>@Model</h3>
+    </hgroup>
+    @Html.ActionLink("Back to home page", "Index")
+</body>
+</html>
+

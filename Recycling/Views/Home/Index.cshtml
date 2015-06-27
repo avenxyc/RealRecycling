@@ -1,0 +1,51 @@
+﻿@model Recycling.Domain.Models.User
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<h1>Recycling</h1>
+<br />
+
+@if (!HttpContext.Current.User.Identity.IsAuthenticated)
+{
+    <div class="col-sm-6">
+        @using (Html.BeginForm("Login", "User"))
+        {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h5>If you have registered, please enter your username and password.</h5>
+            <hr />
+            @Html.ValidationSummary(true, "Login failed. Check your login details.")
+
+            <div class="form-group">
+                @Html.Label("User Name", new { @class = "control-label col-md-2" })
+                <div class="col-md-5">
+                    @Html.Editor("Username")
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Password", new { @class = "control-label col-md-2" })
+                <div class="col-md-5">
+                    @Html.Password("Password")
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Log in" class="btn btn-default" />
+                </div>
+                <br />
+                <div class="col-md-offset-2">
+                    @Html.ActionLink("Click here to register an account", "Create", "User")
+                    <br />
+                    @Html.ActionLink("Reset Password", "ResetPassword", "User")
+                </div>
+            </div>
+        </div>
+        }
+   
+    </div>
+}

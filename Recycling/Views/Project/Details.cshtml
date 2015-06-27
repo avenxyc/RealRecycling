@@ -1,0 +1,83 @@
+﻿@model Recycling.Domain.Models.Project
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>@Html.DisplayFor(model => model.ProjectName)</h2>
+<h4>Details</h4>
+<hr />
+<div class="project_wrapper">
+    <div id="project_details_detail" class="col-sm-3">
+        <dl>
+            <dt>
+                @Html.DisplayNameFor(model => model.ProjectDescription)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ProjectDescription)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.StartDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </dt>
+
+            <dd>
+                20-02-2015
+            </dd>
+        </dl>
+    </div>
+    <div id="project_details_user" class="col-sm-2">
+        <p>Users in this project:</p>
+        @foreach (var user in ViewBag.UserList)
+        {
+            <p style="margin: 0">@Html.ActionLink((String)user.User.Username, "Details", "User", new { id = (int)user.User.Id }, null)</p>;
+        }
+    </div>
+    <div id="project_details_files" class="col-sm-3">
+        <p>Files in this project:</p>
+        @if (ViewBag.FileList.Count != 0)
+        {
+            foreach (var file in ViewBag.FileList)
+            {
+            <a href="~/UploadedFiles/@file.FileName">@file.FileName</a>
+            @Html.ActionLink("X", "DeleteFile", new { id = file.Id }, new { @class = "destroy",
+            @onclick = "return confirm('It will delete this product, do you want to proceed?');" })
+            <br />
+            }
+        }
+        else
+        {
+            <p>No existing file</p>
+        }
+        <br />
+        <div class="files_wrapper">
+            @using (Html.BeginForm("UploadFiles", "Project", new { pid = Model.Id }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="col-md-12" style="padding: 0">
+                    <input id="uploadFile" name="uploadFile" type="file" />
+                    <textarea id="description" name="description" placeholder="File Description" style="width: 100%"></textarea>
+                    <br />
+                    <input type="submit" value="upload" class="btn btn-default btn-sm" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+<p class="col-sm-12">
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+

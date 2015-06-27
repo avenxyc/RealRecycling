@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Recycling.Domain.Models.UserProject>
+
+@{
+    ViewBag.Title = "Projects";
+}
+
+<h2>Projects</h2>
+
+<p>
+    @Html.ActionLink("Add project to this user", "AddProject", new { id = ViewBag.CompanyId })
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Project.ProjectName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Project.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Project.EndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Project.Status)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Project.ProjectName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Project.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Project.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Project.Status)
+            </td>
+
+            @* For Administrator *@
+            <td>
+                @Html.ActionLink("Details", "Details", "Project", new { id = item.Project.Id }, null) |
+            @Html.ActionLink("Remove", "DeleteRelation", new { id = item.Id, userid = (int)Session["UserId"] })
+            </td>
+        </tr>
+    }
+
+</table>
