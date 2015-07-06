@@ -1,6 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-color: white;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -9,53 +10,65 @@
     padding-right: 15px;
 }
 
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
 textarea {
-    max-width: 280px;
+    max-width: 1200px;
 }
 
-/* styles for validation helpers */
-.field-validation-error {
-    color: #b94a48;
+/* Change the bahavior of Carousel text align*/
+.carousel-caption  {
+    text-align: left;
 }
 
-.field-validation-valid {
-    display: none;
+
+/* Change the behavior of the footer*/
+footer p {
+    text-align: center;
 }
 
-input.input-validation-error {
-    border: 1px solid #b94a48;
-}
-
-input[type="checkbox"].input-validation-error {
-    border: 0 none;
-}
-
-.validation-summary-errors {
-    color: #b94a48;
-}
-
-.validation-summary-valid {
-    display: none;
-}
-
-.project_wrapper{
+/*Product Index image style*/
+#product_index_img {
     width: 100%;
-    min-height: 150px;
-    margin: 0;
 }
 
-.destroy { 
-    background-color: #999; 
-    color: #fff;
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    border-radius: 20px;
-    text-decoration: none; 
-    font-size: 8px;
-    padding: 2px 5px;
-    margin: 5px;
-    text-shadow: 0 -1px 0 #999;
+/*Change Product Search box behavior*/
+.product_search {
+    margin-top: 3px;
+    width: 100%;
+}
+
+/*PagedList style*/
+.pagedList {
+    text-align: center;
+}
+
+
+/*Modify the input with file button style*/
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
 }

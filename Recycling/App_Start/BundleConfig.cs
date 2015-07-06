@@ -27,7 +27,7 @@ namespace Recycling
                       "~/Scripts/MyScript.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/bootstrap-customized.css",
                       "~/Content/themes/base/*.css",
                       "~/Content/site.css"));
         }
