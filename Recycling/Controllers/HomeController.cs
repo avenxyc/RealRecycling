@@ -16,6 +16,8 @@ namespace Recycling.Controllers
 
         public ActionResult Index()
         {
+            // By default set the region to be HRM
+            Session["regionName"] = "HRM";
             return View();
         }
 

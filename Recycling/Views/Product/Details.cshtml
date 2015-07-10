@@ -1,98 +1,59 @@
-﻿@model Recycling.Domain.Models.Product
+﻿@model Recycling.Domain.Models.ProductDTO
 
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Product Details</h2>
 
 <div>
-    <h4>Product</h4>
+    <h4>Name: @Model.pHasCs.FirstOrDefault().Product.ProductName</h4>
+    <h5>UPC: @Model.pHasCs.FirstOrDefault().Product.UPC</h5>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.UPC)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UPC)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ProductName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ProductName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CompanyName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CompanyName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ParentCompany)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ParentCompany)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Weight)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Weight)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TotalWeight)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TotalWeight)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.NumberOfConstituent)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.NumberOfConstituent)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LastUpdated)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LastUpdated)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ImagePath)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ImagePath)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Author)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Author)
-        </dd>
-
-    </dl>
+    <div class="content-wraper dl-horizontal ">
+        <img class="col-md-6" src="~/@Model.product.ImagePath" alt="@Model.product.ProductName"/>
+        <dl class="col-md-6">
+            <dt>
+                @Html.DisplayNameFor(model => model.product.ProductName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.product.ProductName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.product.CompanyName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.product.CompanyName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.product.ParentCompany)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.product.ParentCompany)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.product.Weight)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.product.Weight)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.product.TotalWeight)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.product.TotalWeight)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.product.Category.CategoryName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.product.Category.CategoryName)
+            </dd>
+        </dl>
+    </div>
 </div>
+<div></div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.product.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

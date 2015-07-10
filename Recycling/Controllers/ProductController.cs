@@ -50,13 +50,6 @@ namespace Recycling.Controllers
             return View(products);
         }
 
-        // GET: Product/Details/5
-        public ActionResult Details(int id)
-        {
-            var product = _productRepository.GetById(id);
-            return View(product);
-        }
-
         // GET: Product/Create
         public ActionResult Create()
         {
@@ -65,7 +58,7 @@ namespace Recycling.Controllers
                 Value = x.Id.ToString(),
                 Text = x.CategoryName
             });
-            ViewBag.Categories = Categories.OrderBy(x => x.Text);
+            ViewData["Category"] = Categories.OrderBy(x => x.Text);
             return View();
         }
 
@@ -89,8 +82,9 @@ namespace Recycling.Controllers
                             // extract only the fielname
                             var fileExtension = Path.GetExtension(file.FileName);
                             // store the file inside ~/App_Data/uploads folder
-                            var path = Path.Combine(Server.MapPath("/Content/Images/Uploaded"), productdto.product.UPC + fileExtension);
-                            file.SaveAs(path);
+                            var path = "pics/" + productdto.product.UPC + fileExtension;
+                            string dirPath = System.Web.HttpContext.Current.Server.MapPath("~/") + path;
+                            file.SaveAs(dirPath);
                             productdto.product.ImagePath = path;
                         }
 
@@ -109,10 +103,10 @@ namespace Recycling.Controllers
                         Constituent constituent = _constituentRepository.Query.Where(x => x.ConstituentName.Equals(cnames[i])).FirstOrDefault();
                         if (constituent == null)
                         {
-                           constituent = new Constituent
-                           {
-                               ConstituentName = cnames[i]
-                           };
+                            constituent = new Constituent
+                            {
+                                ConstituentName = cnames[i]
+                            };
                         };
 
 
@@ -157,16 +151,78 @@ namespace Recycling.Controllers
         // GET: Product/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var Categories = _categoryRepository.GetAll().ToList().Select(x => new SelectListItem
+            {
+                Value = x.Id.ToString(),
+                Text = x.CategoryName
+            });
+            ViewData["Category"] = Categories.OrderBy(x => x.Text);
+            var productdb = _productRepository.GetById(id);
+            var productHasConstituents = _productHasConstituentRepository.Query.Where(x => x.Product == productdb).ToList();
+            var constituentsdb = new List<Constituent>();
+            foreach (var pHc in productHasConstituents)
+            {
+                constituentsdb.Add(_constituentRepository.GetById(pHc.Constituent.Id));
+            }
+
+
+            var productDto = new ProductDTO
+            {
+                product = productdb,
+                constituents = constituentsdb,
+                pHasCs = productHasConstituents
+            };
+            return View(productDto);
         }
 
         // POST: Product/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(ProductDTO productdto, FormCollection collection)
         {
             try
             {
-                // TODO: Add update logic here
+                using (var uow = _unitOfWorkFactory.UnitOfWork)
+                {
+                    productdto.product.Category = _categoryRepository.GetById(Int32.Parse(collection["CategoryId"]));
+                    HttpPostedFileBase file = Request.Files["ProductImage"];
+                    var productdb = _productRepository.GetById(productdto.product.Id);
+                    // Verify that the user selected a file
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        if (file.ContentType == "image/jpeg" ||
+                            file.ContentType == "image/jpg" ||
+                            file.ContentType == "image/png")
+                        {
+                            // extract only the fielname
+                            var fileExtension = Path.GetExtension(file.FileName);
+                            // store the file inside ~/App_Data/uploads folder
+                            var path = "pics/" + productdto.product.UPC + fileExtension;
+                            string dirPath = System.Web.HttpContext.Current.Server.MapPath("~/") + path;
+                            if (System.IO.File.Exists(dirPath))
+                            {
+                                System.IO.File.Delete(dirPath);
+                                file.SaveAs(path);
+                            }
+                            else
+                            {
+                                file.SaveAs(dirPath);
+                            }
+
+                            productdto.product.ImagePath = path;
+                        }
+                        productdto.product.LastUpdated = DateTime.Now;
+                    }
+                    else if (productdb.ImagePath != null)
+                    {
+                        productdto.product.ImagePath = productdb.ImagePath;
+                    }
+
+
+                    AutoMapper.Mapper.Map(productdto.product, productdb);
+                    _productRepository.SaveOrUpdate(productdb);
+
+                    uow.SaveChanges();
+                }
 
                 return RedirectToAction("Index");
             }
@@ -176,26 +232,68 @@ namespace Recycling.Controllers
             }
         }
 
-        // GET: Product/Delete/5
-        public ActionResult Delete(int id)
+
+        public ActionResult EditConstituent(int id)
         {
-            return View();
+            var pHasc = _productHasConstituentRepository.GetById(id);
+
+            return View(pHasc);
         }
 
-        // POST: Product/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult EditConstituent(ProductHasConstituent phasc)
         {
-            try
+            using (var uow = _unitOfWorkFactory.UnitOfWork)
             {
-                // TODO: Add delete logic here
+                var phascDb = _productHasConstituentRepository.GetById(phasc.Id);
+                phascDb.PartWeight = phasc.PartWeight;
+                _productHasConstituentRepository.SaveOrUpdate(phascDb);
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
+                uow.SaveChanges();
+                return RedirectToAction("Edit", new { id = phascDb.Product.Id });
             }
         }
+
+        public ActionResult RemoveConstituent(int id)
+        {
+            using (var uow = _unitOfWorkFactory.UnitOfWork)
+            {
+                var pHascDb = _productHasConstituentRepository.GetById(id);
+                if (pHascDb != null)
+                {
+                    _productHasConstituentRepository.Delete(pHascDb);
+                }
+
+                uow.SaveChanges();
+                return RedirectToAction("Edit", new { id = pHascDb.Product.Id });
+            }
+
+        }
+
+
+        public ActionResult Details(int id)
+        {
+            var productHasconstituents = _productHasConstituentRepository.Query.Where(x => x.Product.Id == id).ToList();
+            var region = _regionRepository.Query.Where(x => x.RegionName == Session["regionName"].ToString()).FirstOrDefault();
+            var locatedIn = new List<LocatedIn> { };
+
+
+            foreach (var constituent in productHasconstituents)
+            {
+                var recyclability = _locatedInRepository.Query.Where(x => x.Constituent.Id == constituent.Id && x.Region.Id == region.Id).FirstOrDefault();
+                locatedIn.Add(recyclability);
+            }
+
+            var productdto = new ProductDTO
+            {
+                pHasCs = productHasconstituents,
+                recyclabilities = locatedIn,
+                product = productHasconstituents.FirstOrDefault().Product
+            };
+
+            return View(productdto);
+        }
+
+
     }
 }

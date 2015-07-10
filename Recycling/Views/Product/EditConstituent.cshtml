@@ -1,0 +1,53 @@
+﻿@model Recycling.Domain.Models.ProductHasConstituent
+
+@{
+    ViewBag.Title = "Edit Constituent";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>@Model.Constituent.ConstituentName for @Model.Product.ProductName</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.Label("Constituent Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                <p class="form-control">@Model.Constituent.ConstituentName</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Type", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                <p class="form-control">@Model.Constituent.Type</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PartWeight, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PartWeight, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PartWeight, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

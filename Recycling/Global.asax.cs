@@ -13,9 +13,9 @@ namespace Recycling
     {
         protected void Application_Start()
         {
-            //AutoMapper.Mapper.CreateMap<Project, Project>()
-            //   .ForMember(d => d.UserProjects, o => o.Ignore())
-            //   ;
+            AutoMapper.Mapper.CreateMap<Product, Product>()
+               .ForMember(d => d.ProductHasConstituents, o => o.Ignore())
+               ;
 
             //AutoMapper.Mapper.CreateMap<User, User>()
             //  .ForMember(d => d.UserProjects, o => o.Ignore())

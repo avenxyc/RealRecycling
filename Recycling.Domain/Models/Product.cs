@@ -48,7 +48,7 @@ namespace Recycling.Domain.Models
 
         public virtual ItemCategory Category { get; set; }
 
-        public virtual ISet<ProductHasConstituent> ProductHasConstituents { get; set; }
+        public virtual System.Collections.Generic.IEnumerable<ProductHasConstituent> ProductHasConstituents { get; set; }
     }
 }
 
