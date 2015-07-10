@@ -27,9 +27,9 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     @if ((String)Session["Role"] == "Admin")
                     {
-                        <li>@Html.ActionLink("User", "Index", "User")</li>
+                        @*<li>@Html.ActionLink("User", "Index", "User")</li>
                         <li>@Html.ActionLink("Company", "Index", "Company")</li>
-                        <li>@Html.ActionLink("Project", "Index", "Project")</li>
+                        <li>@Html.ActionLink("Project", "Index", "Project")</li>*@
                     }
                     else if ((String)Session["Role"] == "User")
                     {
@@ -43,6 +43,7 @@
                     else
                     {
                         <li>@Html.ActionLink("Products", "Index", "Product", null, null)</li>
+                        <li>@Html.ActionLink("Constituents", "Index", "Constituent", null, null)</li>
                     }
                 </ul>
             </div>

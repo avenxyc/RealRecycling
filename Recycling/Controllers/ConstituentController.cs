@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Recycling.Domain.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,10 +9,16 @@ namespace Recycling.Controllers
 {
     public class ConstituentController : Controller
     {
+        private readonly IConstituentRepository _constituentRepository;
+        public ConstituentController(IConstituentRepository constituentRepository)
+        {
+            _constituentRepository = constituentRepository;
+        }
         // GET: Constituent
         public ActionResult Index()
         {
-            return View();
+            var constituents = _constituentRepository.GetAll().ToList();
+            return View(constituents);
         }
     }
 }

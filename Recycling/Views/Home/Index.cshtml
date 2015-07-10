@@ -1,96 +1,4 @@
-﻿@*@model Recycling.Domain.Models.User
-
-@{
-    ViewBag.Title = "Home Page";
-}
-
-<h1>Recycling</h1>
-<br />
-<div id="carousel-slider" class="carousel slide" data-ride="carousel">
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-        <li data-target="#carousel-slider" data-slide-to="0" class="active"></li>
-        <li data-target="#carousel-slider" data-slide-to="1"></li>
-        <li data-target="#carousel-slider" data-slide-to="2"></li>
-    </ol>
-    <!-- Wrapper for slides -->
-    <div class="carousel-inner">
-        <div class="item active">
-            <img src="/Content/Images/green-background.png" alt="" />
-            <div class="carousel-caption">
-                <h1>Recycling</h1>
-                <p class="lead">The project is designed to help you make better decisions while dealing with the package waste you have from the grocery items.</p>
-            </div>
-        </div>
-        <div class="item">
-            <img src="/Content/Images/green-background.png" alt="" />
-            <div class="carousel-caption">
-                <h1>Recycling</h1>
-                <p class="lead">The project is designed to help you make better decisions while dealing with the package waste you have from the grocery items.</p>
-            </div>
-        </div>
-        <div class="item">
-            <img src="/Content/Images/green-background.png" alt="" />
-            <div class="carousel-caption">
-                <h1>Recycling</h1>
-                <p class="lead">The project is designed to help you make better decisions while dealing with the package waste you have from the grocery items.</p>
-            </div>
-        </div>
-    </div>
-    <!-- Controls -->
-    <a class="left carousel-control" href="#carousel-slider" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left"></span>
-    </a>
-    <a class="right carousel-control" href="#carousel-slider" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right"></span>
-    </a>
-</div> <!-- Carousel -->
-
-@if (!HttpContext.Current.User.Identity.IsAuthenticated)
-{
-    <div class="col-sm-6">
-        @using (Html.BeginForm("Login", "User"))
-        {
-        @Html.AntiForgeryToken()
-
-        <div class="form-horizontal">
-            <h5>If you have registered, please enter your username and password.</h5>
-            <hr />
-            @Html.ValidationSummary(true, "Login failed. Check your login details.")
-
-            <div class="form-group">
-                @Html.Label("User Name", new { @class = "control-label col-md-2" })
-                <div class="col-md-5">
-                    @Html.Editor("Username")
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.Label("Password", new { @class = "control-label col-md-2" })
-                <div class="col-md-5">
-                    @Html.Password("Password")
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Log in" class="btn btn-default" />
-                </div>
-                <br />
-                <div class="col-md-offset-2">
-                    @Html.ActionLink("Click here to register an account", "Create", "User")
-                    <br />
-                    @Html.ActionLink("Reset Password", "ResetPassword", "User")
-                </div>
-            </div>
-        </div>
-        }
-   
-    </div>
-}*@
-
-
-@{
+﻿@{
     ViewBag.Title = "Home Page";
 }
 @*Slider*@
@@ -153,3 +61,95 @@
         <p><a class="btn btn-success" href="/">Learn more &raquo;</a></p>
     </div>
 </div>
+
+
+@*@model Recycling.Domain.Models.User
+
+    @{
+        ViewBag.Title = "Home Page";
+    }
+
+    <h1>Recycling</h1>
+    <br />
+    <div id="carousel-slider" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#carousel-slider" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel-slider" data-slide-to="1"></li>
+            <li data-target="#carousel-slider" data-slide-to="2"></li>
+        </ol>
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+            <div class="item active">
+                <img src="/Content/Images/green-background.png" alt="" />
+                <div class="carousel-caption">
+                    <h1>Recycling</h1>
+                    <p class="lead">The project is designed to help you make better decisions while dealing with the package waste you have from the grocery items.</p>
+                </div>
+            </div>
+            <div class="item">
+                <img src="/Content/Images/green-background.png" alt="" />
+                <div class="carousel-caption">
+                    <h1>Recycling</h1>
+                    <p class="lead">The project is designed to help you make better decisions while dealing with the package waste you have from the grocery items.</p>
+                </div>
+            </div>
+            <div class="item">
+                <img src="/Content/Images/green-background.png" alt="" />
+                <div class="carousel-caption">
+                    <h1>Recycling</h1>
+                    <p class="lead">The project is designed to help you make better decisions while dealing with the package waste you have from the grocery items.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel-slider" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="right carousel-control" href="#carousel-slider" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+    </div> <!-- Carousel -->
+
+    @if (!HttpContext.Current.User.Identity.IsAuthenticated)
+    {
+        <div class="col-sm-6">
+            @using (Html.BeginForm("Login", "User"))
+            {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <h5>If you have registered, please enter your username and password.</h5>
+                <hr />
+                @Html.ValidationSummary(true, "Login failed. Check your login details.")
+
+                <div class="form-group">
+                    @Html.Label("User Name", new { @class = "control-label col-md-2" })
+                    <div class="col-md-5">
+                        @Html.Editor("Username")
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Password", new { @class = "control-label col-md-2" })
+                    <div class="col-md-5">
+                        @Html.Password("Password")
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Log in" class="btn btn-default" />
+                    </div>
+                    <br />
+                    <div class="col-md-offset-2">
+                        @Html.ActionLink("Click here to register an account", "Create", "User")
+                        <br />
+                        @Html.ActionLink("Reset Password", "ResetPassword", "User")
+                    </div>
+                </div>
+            </div>
+            }
+
+        </div>
+    }*@
