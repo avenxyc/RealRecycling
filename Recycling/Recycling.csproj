@@ -230,6 +230,15 @@
     <Content Include="Views\Product\Create.cshtml" />
     <Content Include="Views\Product\EditConstituent.cshtml" />
     <Content Include="Views\Constituent\Index.cshtml" />
+    <Content Include="Views\Constituent\Edit.cshtml" />
+    <Content Include="Views\Constituent\Create.cshtml" />
+    <Content Include="Views\Constituent\Details.cshtml" />
+    <Content Include="Views\Region\Index.cshtml" />
+    <Content Include="Views\Region\Edit.cshtml" />
+    <Content Include="Views\Region\Create.cshtml" />
+    <Content Include="Views\Product\AddConstituent.cshtml" />
+    <Content Include="Views\Constituent\AddRecyclability.cshtml" />
+    <Content Include="Views\Constituent\EditRecyclability.cshtml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -246,6 +255,7 @@
     <Compile Include="Controllers\ConstituentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\RegionController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="CustomAttributes\UserAuthentication.cs" />
     <Compile Include="DependencyResolution\ControllerConvention.cs" />

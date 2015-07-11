@@ -141,12 +141,13 @@
     <Compile Include="Infrastructure\AutoFactoryExtensions.cs" />
     <Compile Include="Infrastructure\FactoryInterceptor.cs" />
     <Compile Include="Infrastructure\ProxyFactory.cs" />
+    <Compile Include="Models\DTO\LocatedInDTO.cs" />
     <Compile Include="Models\ItemCategory.cs" />
     <Compile Include="Models\Constituent.cs" />
     <Compile Include="Models\DbEntity.cs" />
     <Compile Include="Models\LocatedIn.cs" />
     <Compile Include="Models\Product.cs" />
-    <Compile Include="Models\ProductDTO.cs" />
+    <Compile Include="Models\DTO\ProductDTO.cs" />
     <Compile Include="Models\ProductHasConstituent.cs" />
     <Compile Include="Models\Region.cs" />
     <Compile Include="Models\User.cs" />

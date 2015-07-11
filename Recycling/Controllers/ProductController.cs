@@ -6,7 +6,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace Recycling.Controllers
 {
@@ -115,8 +117,6 @@ namespace Recycling.Controllers
                             Product = productdto.product,
                             PartWeight = Double.Parse(cpweights[i]),
                             Constituent = constituent,
-                            ConstituentName = cnames[i],
-                            UPC = productdto.product.UPC
 
                         };
 
@@ -125,7 +125,6 @@ namespace Recycling.Controllers
                             Constituent = constituent,
                             Region = _regionRepository.Query.Where(x => x.RegionName == productdto.region.RegionName).FirstOrDefault(),
                             Classification = cclassifications[i],
-                            ConstituentName = constituent.ConstituentName
                         };
 
                         _productRepository.SaveOrUpdate(productdto.product);
@@ -232,10 +231,38 @@ namespace Recycling.Controllers
             }
         }
 
-
-        public ActionResult EditConstituent(int id)
+        public ActionResult AddConstituent(int pid)
         {
-            var pHasc = _productHasConstituentRepository.GetById(id);
+            var constituents = _constituentRepository.GetAll().ToList();
+            ViewBag.Constituent = constituents.OrderBy(x => x.ConstituentName);
+            var product = _productRepository.GetById(pid);
+            var phasc = new ProductHasConstituent
+            {
+                Product = product
+            };
+            return View(phasc);
+        }
+
+        [HttpPost]
+        public ActionResult AddConstituent(ProductHasConstituent phasc)
+        {
+            if (phasc.PartWeight > 0)
+            {
+                var constituent = _constituentRepository.GetById(phasc.Constituent.Id);
+                phasc.Constituent = constituent;
+                var product = _productRepository.GetById(phasc.Product.Id);
+                phasc.Product = product;
+                _productHasConstituentRepository.SaveOrUpdate(phasc);
+                return RedirectToAction("Edit", new { id = phasc.Product.Id });
+            }
+            var constituents = _constituentRepository.GetAll().ToList();
+            ViewBag.Constituent = constituents.OrderBy(x => x.ConstituentName);
+            return View(phasc);
+        }
+
+        public ActionResult EditConstituent(int pHascId)
+        {
+            var pHasc = _productHasConstituentRepository.GetById(pHascId);
 
             return View(pHasc);
         }
@@ -254,11 +281,11 @@ namespace Recycling.Controllers
             }
         }
 
-        public ActionResult RemoveConstituent(int id)
+        public ActionResult RemoveConstituent(int pHascId)
         {
             using (var uow = _unitOfWorkFactory.UnitOfWork)
             {
-                var pHascDb = _productHasConstituentRepository.GetById(id);
+                var pHascDb = _productHasConstituentRepository.GetById(pHascId);
                 if (pHascDb != null)
                 {
                     _productHasConstituentRepository.Delete(pHascDb);
@@ -269,7 +296,6 @@ namespace Recycling.Controllers
             }
 
         }
-
 
         public ActionResult Details(int id)
         {
@@ -291,9 +317,51 @@ namespace Recycling.Controllers
                 product = productHasconstituents.FirstOrDefault().Product
             };
 
+
+
             return View(productdto);
         }
 
+        public ActionResult Delete(int id)
+        {
+            using (var uow = _unitOfWorkFactory.UnitOfWork)
+            {
+                var product = _productRepository.GetById(id);
+                var phascs = _productHasConstituentRepository.Query.Where(x => x.Product == product);
+                foreach (var phasc in phascs)
+                {
+                    _productHasConstituentRepository.Delete(phasc);
+                }
 
+                _productRepository.Delete(product);
+
+                uow.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+        }
+
+        public JsonResult GetConstituents(int id)
+        {
+            var constituents = new List<ConstituentDTO> { };
+            // instantiate a serializer
+            foreach (var phasc in _productHasConstituentRepository.Query.Where(x => x.Product.Id == id))
+            {
+                var constituent = new ConstituentDTO
+                {
+                    CName = phasc.Constituent.ConstituentName,
+                    PartWeight = phasc.PartWeight
+                };
+                constituents.Add(constituent);
+            }
+
+            return Json(constituents, JsonRequestBehavior.AllowGet);
+        }
+
+        public class ConstituentDTO
+        {
+            public string CName { get; set; }
+            public double PartWeight { get; set; }
+        }
     }
 }

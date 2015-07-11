@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -9,9 +10,7 @@ namespace Recycling.Domain.Models
 {
     public class ProductHasConstituent : DbEntity
     {
-        public virtual string UPC { get; set; }
-
-        public virtual string ConstituentName { get; set; }
+        [DisplayName("Part Weight(g)")]
         public virtual double PartWeight { get; set; }
 
 

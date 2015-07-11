@@ -20,20 +20,25 @@ namespace Recycling.Domain.Models
         public virtual string UPC { get; set; }
 
         [Required]
+        [DisplayName("Product Name")]
         [StringLength(30, ErrorMessage = "The Product Name is limited under 30 charaters.")]
         public virtual string ProductName { get; set; }
 
         [Required]
+        [DisplayName("Company Name")]
         [StringLength(30, ErrorMessage = "The Company Name is limited under 30 charaters.")]
         public virtual string CompanyName { get; set; }
 
+        [DisplayName("Parent Company")]
         [StringLength(30, ErrorMessage = "The Parent Company Name is limited under 30 charaters.")]
         public virtual string ParentCompany { get; set; }
 
         [Required]
+        [DisplayName("Weight(g)/Volumn(L)")]
         public virtual double Weight { get; set; }
 
         [Required]
+        [DisplayName("Total Weight")]
         public virtual double TotalWeight { get; set; }
 
         [DisplayName("Number of Constituents")]

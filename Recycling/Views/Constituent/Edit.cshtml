@@ -1,0 +1,108 @@
+﻿@model Recycling.Domain.Models.LocatedInDTO
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Constituent</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Constituent.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Constituent.ConstituentName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Constituent.ConstituentName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Constituent.ConstituentName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Constituent.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Constituent.Type, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Constituent.Type, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <hr />
+
+        @Html.ActionLink("Add a region", "AddRecyclability", new { cid = Model.Constituent.Id })
+        @foreach (var locatedIn in Model.LocatedIns)
+        {
+
+            <div class="form-group">
+                @Html.Label("Region", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @if (locatedIn.Region.RegionName != null)
+                    {
+                        <p class="form-control">@locatedIn.Region.RegionName</p>
+                    }
+                    else
+                    {
+                        <p class="form-control">Not available</p>
+                    }
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Classification", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @if (locatedIn.Classification != null)
+                    {
+                        <p class="form-control">@locatedIn.Classification</p>
+                    }
+                    else
+                    {
+                        <p class="form-control">Not available</p>
+                    }
+                </div>
+            </div>
+
+    <div class="form-group">
+        @Html.Label("Recyclability", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-3">
+            @if (locatedIn.Recyclability != null)
+            {
+                <p class="form-control">@locatedIn.Recyclability</p>
+            }
+            else
+            {
+                <p class="form-control">Not available</p>
+            }
+        </div>
+    </div>
+
+            <div class="form-group">
+                @Html.Label("Action", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.ActionLink("Edit", "EditRecyclability", new { locatedInId = locatedIn.Id }, new { @class = "control-label col-md-1" })
+                    @Html.ActionLink("Remove", "RemoveRecyclability", new { locatedInId = locatedIn.Id }, new { @class = "control-label col-md-1" })
+                </div>
+            </div>
+            <hr />
+        }
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

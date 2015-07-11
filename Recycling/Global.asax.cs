@@ -17,6 +17,14 @@ namespace Recycling
                .ForMember(d => d.ProductHasConstituents, o => o.Ignore())
                ;
 
+            AutoMapper.Mapper.CreateMap<Constituent, Constituent>()
+               .ForMember(d => d.ProductHasConstituents, o => o.Ignore())
+               .ForMember(d => d.LocatedIns, o => o.Ignore())
+               ;
+
+            AutoMapper.Mapper.CreateMap<Region, Region>()
+               .ForMember(d => d.LocatedIns, o => o.Ignore())
+               ;
             //AutoMapper.Mapper.CreateMap<User, User>()
             //  .ForMember(d => d.UserProjects, o => o.Ignore())
             //  .ForMember(d => d.FileLogs, o => o.Ignore())

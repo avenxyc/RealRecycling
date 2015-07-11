@@ -71,15 +71,16 @@
         </div>
         <hr />
 
+        @Html.ActionLink("Add a constituent", "AddConstituent", new { pid = Model.product.Id })
         @{
     foreach (var pHasC in Model.pHasCs)
     {
-            <div class="form-group">
-                @Html.Label("Constituent Name", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-2">
-                    <p class="form-control">@pHasC.Constituent.ConstituentName</p>
-                </div>
+        <div class="form-group">
+            @Html.Label("Constituent Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                <p class="form-control">@pHasC.Constituent.ConstituentName</p>
             </div>
+        </div>
 
             <div class="form-group">
                 @Html.Label("Type", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -98,11 +99,11 @@
             <div class="form-group">
                 @Html.Label("Action", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-2">
-                    @Html.ActionLink("Edit", "EditConstituent", new { Id = pHasC.Id }, new { @class = "control-label col-md-1" })
-                    @Html.ActionLink("Remove", "RemoveConstituent", new { Id = pHasC.Id }, new { @class = "control-label col-md-1" })
+                    @Html.ActionLink("Edit", "EditConstituent", new { pHascId = pHasC.Id }, new { @class = "control-label col-md-1" })
+                    @Html.ActionLink("Remove", "RemoveConstituent", new { pHascId = pHasC.Id }, new { @class = "control-label col-md-1" })
                 </div>
             </div>
-            
+
             <hr />
     }
         }
